@@ -1,7 +1,7 @@
+import base64
 import os
 
-from flask import Flask, request, send_from_directory, make_response, jsonify
-from typing import List
+from flask import Flask, request, send_from_directory, send_file, make_response, jsonify
 from create_qrcode import GenerateCode
 
 app = Flask("GenerateQrCodeApi")
@@ -37,13 +37,22 @@ def get_qr_code():
 
     # 发送文件流到前端
     try:
+        # 方法一：直接下载文件
         # as_attachment=True表示设置响应头中 "Content-Disposition: attachment"
         # 用于控制文件的下载方式，Content-Disposition: attachment弹出对话框让用户下载
         # Content-Disposition: inline表示在页面内打开文件内容
-        response = make_response(
-            send_from_directory(dst_dir, dst_name, as_attachment=True)
-        )
-        return response
+        # response = make_response(
+        #     send_from_directory(dst_dir, dst_name, as_attachment=True)
+        # )
+
+        # 方法二：以文件流的方式发送，将图片字节流经过base64编码后以ascii方式解码，最终得到一串包含图片信息的字符串
+        # 解码方式：
+        # result = base64.decodebytes(img_stream.encode("ascii"))
+        # with open("a.png", "wb") as f:
+        #     f.write(result)
+        with open(dst_path, "rb") as f:
+            img_stream = base64.encodebytes(f.read()).decode("ascii")
+        return jsonify({"code": "ok", "message": {"filename": dst_name, "img": img_stream}})
     except Exception as e:
         return jsonify({"code": "error", "message": "{}".format(e)})
 
