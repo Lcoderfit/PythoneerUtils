@@ -1,9 +1,10 @@
 # 如果太久没有了需要先更新pip，然后更新MyQR和numpy版本
 # python -m pip install -U pip
 # pip install -U MyQR       pip install -U numpy
-from MyQR import myqr
 import os
 import re
+
+from MyQR import myqr
 
 
 class GenerateCode:

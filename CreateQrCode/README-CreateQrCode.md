@@ -89,25 +89,25 @@ CreateQrCode                    生成个性二维码的实用工具
 
 * 在PythoneerUtils目录下打开终端, 输入如下命令，-m表示mode，python -m venv表示使用python的创建虚拟环境的模式，第二个venv可以随意命名，表示生成的虚拟环境文件名，python -m venv venv会在当前目录下生成一个venv的文件，创建一个名为venv的虚拟环境
 
-  ```
+  ```shell script
   $python -m venv venv
   ```
 
 * 启动虚拟环境
 
-  ```
+  ```shell script
   $venv\Scripts\activate
   ```
 
 * 退出虚拟环境
 
-  ```
+  ```shell script
   $deactivate
   ```
 
 * 删除虚拟环境
 
-  ```
+  ```text
   直接删除之前创建的虚拟环境文件即可
   $rd /s venv  # 会弹出是否删除venv文件的提示，输入Y然后回车即可
   
@@ -119,26 +119,26 @@ CreateQrCode                    生成个性二维码的实用工具
 
 * 创建并启动虚拟环境之后，需要下载项目中的依赖模块，CreateQrCode中有一个requirements-windows.txt文件，该文件是通过
 
-  ```
+  ```shell script
   pip freeze > requirements-windows.txt
   ```
 
   命令生成的，里面包含了项目所需要依赖包对应的版本信息，切换到CreateQrCode目录下，使用如下命令下载requirements-windows.txt中涉及到的依赖包
 
-  ```
+  ```shell script
   pip install -r requirements-windows.txt
   ```
 
 * 如果下载包的过程中报错，则应查看是在下载哪个包的时候报错了，可以手动下载该包：
 
-  ```
+  ```text
   方法1：pip install -U package_name #下载最新版本的包
   方法2：pip install -U package_name==1.0.0 #下载该包的1.0.0版本(版本号根据实际情况更改)
   ```
 
 * 注意：有的时候我们会在虚拟环境内更新pip版本，可能会遇到在虚拟环境内更新pip（python -m pip install -U pip）报错的情况：
   
-```
+```text
   ceback (most recent call last):
     File "/home/PushProject/CreateQrCode/venv/bin/pip", line 7, in <module>
       from pip._internal.cli.main import main
@@ -148,13 +148,13 @@ CreateQrCode                    生成个性二维码的实用工具
 
   如果遇到该问题，可以先回退到原始版本：例如原始版本是19.0，则：
 
-  ```
+  ```shell script
 python -m pip install -U pip==19.0
   ```
 
   然后通过pip来更新pip自身的版本：
 
-  ```
+  ```text
   pip install -U pip # 更新到pip最新版本
   或指定版本更新：pip install -U pip==20.2.3
   pip -V # 查看当前的pip版本
@@ -163,7 +163,7 @@ python -m pip install -U pip==19.0
 
 * 题外话
 
-  ```
+  ```text
   1.查看windows下pip源
   在C:\Users\Lcoderfit\pip目录下打开cmd，然后type pip.ini就会显示相关内容
   
@@ -175,9 +175,9 @@ python -m pip install -U pip==19.0
 
 * 在CreateQrCode目录下输入如下命令启动服务，然后使用postman或者apipost等工具，根据第二节中的请求格式跟请求参数对
 
-  http://localhost:8062/qr_code发送POST请求即可
+  <http://localhost:8062/qr_code>发送POST请求即可
 
-  ```
+  ```shell script
   $python flask_api.py
   ```
 
@@ -187,31 +187,31 @@ python -m pip install -U pip==19.0
 
 * 首先将PythonUtils目录整个迁移到自己的Linux服务器上，python3创建虚拟环境可能需要下载python3-venv包
 
-  ```
+  ```shell script
   $sudo apt-get install python3-venv
   ```
 
 * 创建虚拟环境，与windows下命令相同：
 
-  ```
+  ```shell script
   $python -m venv venv
   ```
 
 * 激活虚拟环境
 
-  ```
+  ```shell script
   $source venv/bin/activate
   ```
 
 * 退出虚拟环境
 
-  ```
+  ```shell script
   $deactivate
   ```
 
 * 虚拟环境（手动删除虚拟环境文件即可）
 
-   ```
+   ```shell script
   rm venv
   ```
 
@@ -219,7 +219,7 @@ python -m pip install -U pip==19.0
 
 * 相关信息可以参考3.1.2, 命令与windows下相同
 
-  ```
+  ```shell script
   pip install -r requirements-linux.txt
   ```
 
@@ -227,7 +227,7 @@ python -m pip install -U pip==19.0
 
 * 参考CreateQrCode/qrcode_nginx.conf，可以根据自己实际情况将8062端口号改成其他端口，如果你租的是阿里云，需要在阿里云控制台设置相应端口的
 
-  ```
+  ```text
   # 通过nginx默认端口接口接收请求，然后将请求转发到8062端口给flask_api.py程序进行处理
   server {
       listen       80; # nginx默认端口，无需修改
@@ -254,7 +254,7 @@ python -m pip install -U pip==19.0
 
 * 注意，当你用apipost或者postman等工具发送post请求之后，如果显示：
 
-  ```
+  ```text
   “413 Request Entity Too Large”
   ```
 
@@ -262,31 +262,31 @@ python -m pip install -U pip==19.0
 
 * 将配置链接到nginx
 
-  ```
+  ```shell script
   $sudo ln -s /path/to/your/qrcode_nginx.conf /etc/nginx/sites-enabled/
   ```
 
 * 启动nginx
 
-  ```
+  ```shell script
   $/etc/init.d/nginx start
   ```
 
 * 启动nginx之后，如果又修改了qrcode_nginx.conf,则只需要重新载入即可
 
-  ```
+  ```shell script
   $/etc/init.d/nginx reload
   ```
 
 * 启动程序
 
-  ```
+  ```shell script
   $nohup python flask_api.py &
   ```
 
   如果只改了程序没改qrcode_nginx.conf，则杀掉进程之后更新代码再重启程序即可，不需要重载nginx
 
-  ```
+  ```text
   $ps aux|grep flask_api # 找到flask_api对应的进程号(PID)
   $kill -9 PID
   修改完程序之后重启：
