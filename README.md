@@ -28,9 +28,9 @@ Pythoneers实用工具
     #############################
     on:
       push:
-      	# 表示当直接push代码到main,dev,release-*分支时会触发事件
-      	# release-*后面的"*"是通配符
-      	# 如果要指定直接push代码到某些分支时不触发事件，则用branches-ignore: [branch_name]
+        # 表示当直接push代码到main,dev,release-*分支时会触发事件
+        # release-*后面的"*"是通配符
+        # 如果要指定直接push代码到某些分支时不触发事件，则用branches-ignore: [branch_name]
         branches: [main, dev, release-*]
       pull_request:
         # 表示当对main，dev，release-*分支创建一个pull request时会触发事件
@@ -74,8 +74,6 @@ Pythoneers实用工具
               DEFAULT_BRANCH: main
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     ```
-    
-    
 
 ### 1.2 在Linux环境中手动对linter.yml进行语法检查
 
@@ -109,6 +107,9 @@ Pythoneers实用工具
     50:8      warning  missing starting space in comment  (comments)
     57:52     error    no new line character at the end of file  (new-line-at-end-of-file)
   ```
+### 1.3 题外话
+* python-black用于对代码进行格式
+* python-isort用于对python导入模块的这部分代码进行美化
 
   
 
