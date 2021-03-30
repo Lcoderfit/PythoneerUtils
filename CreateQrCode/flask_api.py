@@ -1,13 +1,14 @@
 import base64
 import os
 
-from flask import Flask, request, send_from_directory, send_file, make_response, jsonify
+# from flask import Flask, request, send_from_directory, send_file, make_response, jsonify
 from create_qrcode import GenerateCode
+from flask import Flask, jsonify, request
 
 app = Flask("GenerateQrCodeApi")
 
 
-@app.route("/qr_code", methods=['POST'])
+@app.route("/qr_code", methods=["POST"])
 def get_qr_code():
     """获取二维码"""
     # 获取multipart/form-data方式上传的text对象
@@ -32,7 +33,7 @@ def get_qr_code():
     dst_path = generator.qr_code(content, source_path)
 
     # 获取文件所在目录及文件名
-    dst_dir = os.path.dirname(dst_path)
+    # dst_dir = os.path.dirname(dst_path)
     dst_name = os.path.split(dst_path)[-1]
 
     # 发送文件流到前端
@@ -52,11 +53,13 @@ def get_qr_code():
         #     f.write(result)
         with open(dst_path, "rb") as f:
             img_stream = base64.encodebytes(f.read()).decode("ascii")
-        return jsonify({"code": "ok", "message": {"filename": dst_name, "img": img_stream}})
+        return jsonify(
+            {"code": "ok", "message": {"filename": dst_name, "img": img_stream}}
+        )
     except Exception as e:
         return jsonify({"code": "error", "message": "{}".format(e)})
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     generator = GenerateCode()
     app.run("0.0.0.0", port=8062)
