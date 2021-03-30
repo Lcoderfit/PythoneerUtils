@@ -30,9 +30,9 @@ class GenerateCode:
             raise Exception("content must be a not empty string")
         # 判断源文件名是否合法, source如果存在则必须是一个字符串
         if source and (
-                not isinstance(source, str)
-                or not re.search(r"(.jpg|.png|.gif)$", source)
-                or not os.path.isfile(source)
+            not isinstance(source, str)
+            or not re.search(r"(.jpg|.png|.gif)$", source)
+            or not os.path.isfile(source)
         ):
             raise Exception("source is not valid file")
 
