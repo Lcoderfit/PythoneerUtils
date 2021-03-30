@@ -29,8 +29,11 @@ class GenerateCode:
         if not words or not isinstance(words, str):
             raise Exception("content must be a not empty string")
         # 判断源文件名是否合法, source如果存在则必须是一个字符串
-        if source and (not isinstance(source, str)
-                       or not re.search(r"(.jpg|.png|.gif)$", source) or not os.path.isfile(source)):
+        if source and (
+                not isinstance(source, str)
+                or not re.search(r"(.jpg|.png|.gif)$", source)
+                or not os.path.isfile(source)
+        ):
             raise Exception("source is not valid file")
 
         # dst_name不需要带有后缀
@@ -70,12 +73,12 @@ class GenerateCode:
         return result[2]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # 二维码携带的信息，如果要使扫码后跳转到网页，则需要包含http/https前缀，否则只会显示文字内容
     content = "http://blessing.lcoderfit.com"
     # 获取当前工作目录
     base_path = os.getcwd()
-    filename = 'source.gif'
+    filename = "source.gif"
     # os.path.normpath()：将路径变成标准路径
     # str.replace("\\", "/")：将windows路径分隔符"\\"替换为通用分隔符"/"
     source_file_path = os.path.normpath(os.path.join(base_path, filename))

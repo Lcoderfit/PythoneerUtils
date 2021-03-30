@@ -3,11 +3,7 @@ import os
 
 # from flask import Flask, request, send_from_directory, send_file, make_response, jsonify
 from create_qrcode import GenerateCode
-from flask import (
-    Flask,
-    request,
-    jsonify
-)
+from flask import Flask, request, jsonify
 
 app = Flask("GenerateQrCodeApi")
 
