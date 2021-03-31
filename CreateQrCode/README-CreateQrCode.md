@@ -300,7 +300,7 @@ python -m pip install -U pip==19.0
 
 * 将一些二进制字符转换成普通字符用于网络传输，一些二进制字符在传输协议中属于控制字符，不能直接传送需要转换一下
 
-  ```
+  ```text
   //在css里的写法
   #fkbx-spch, #fkbx-hspch {
     background: url(data:image/gif;base64,R0lGODlhHAAmAKIHAKqqqsvLy0hISObm5vf394uLiwAAAP///yH5B…EoqQqJKAIBaQOVKHAXr3t7txgBjboSvB8EpLoFZywOAo3LFE5lYs/QW9LT1TRk1V7S2xYJADs=) no-repeat center;
