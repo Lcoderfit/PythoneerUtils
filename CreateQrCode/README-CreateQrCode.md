@@ -293,9 +293,50 @@ python -m pip install -U pip==19.0
   ```
 
 ## 四、知识点回顾
-### 4.1为什么图片要进行base64编码
-* 首先，base64准确来说是编码，不是加密。可以提升性能，网页上的每一个图片，都需要消耗一个http请求来下载，如果把图片进行base64编码转为字符串，可以随html页面一起下载下来，减少http请求次数
+### 4.1 为什么图片要进行base64编码
+* 首先，base64准确来说是编码，不是加密。减少http请求数（但是并不一定能提高性能，下文会讲），网页上的每一个图片，都需要消耗一个http请求来下载，如果把图片进行base64编码转为字符串，可以随html页面一起下载下来，减少http请求次数
+
 * 可以起到一定程度的保密性，别人没办法一眼看出照片内容
+
 * 将一些二进制字符转换成普通字符用于网络传输，一些二进制字符在传输协议中属于控制字符，不能直接传送需要转换一下
 
-### 4.2为什么用base64编码不用其他编码
+  ```text
+  //在css里的写法
+  #fkbx-spch, #fkbx-hspch {
+    background: url(data:image/gif;base64,R0lGODlhHAAmAKIHAKqqqsvLy0hISObm5vf394uLiwAAAP///yH5B…EoqQqJKAIBaQOVKHAXr3t7txgBjboSvB8EpLoFZywOAo3LFE5lYs/QW9LT1TRk1V7S2xYJADs=) no-repeat center;
+  }
+  
+  //在html代码img标签里的写法
+  <img src="data:image/gif;base64,R0lGODlhHAAmAKIHAKqqqsvLy0hISObm5vf394uLiwAAAP///yH5B…EoqQqJKAIBaQOVKHAXr3t7txgBjboSvB8EpLoFZywOAo3LFE5lYs/QW9LT1TRk1V7S2xYJADs=">
+  ```
+### 4.2 base64对图片进行编码一定能提高性能吗？
+
+* 不一定，base64虽然能减少http请求次数，但是会导致css或html文件体积的增大（一般经过base64编码之后的图片内容比之前大1/3），从而导致CRP阻塞（critical rendering path，关键渲染路径），CRP指的是浏览器从接收到服务器的HTML响应开始到屏幕显示出整个页面的过程
+* HTML和CSS会阻塞渲染，但是图片不会（因为图片是用额外的http进行请求）
+* 如果将base64编码值放到CSS里，则页面解析CSS生成CSSOM的时间会增加（首先解析HTML，在head标签中遇到link标签会下载对应的css文件，然后生成CSSOM，CSSOM未生成之前所有东西都不会展示）
+* 如果图片经常改动，则维护代码会更加困难，因为需要手动修改这些经过base64编码的值
+
+### 4.3 什么情况下用base64？
+
+* 图片比较小，经过base64编码后也不会大很多
+* 图片不会经常更新，在整个网址中复用性很高（因为图片改动之后base64编码也变了）
+* continue
+
+### 4.4 如何解决base64的问题，有没有其他方案——CssSprites
+
+* CssSprites也可以减少http请求次数，它是将页面中许多小图合成一个大图，这样本来10个图片需要10个http请求，合成一个大图之后就只需要一个
+* 降低因图片更新导致的代码维护难度
+* 不会增加CSS体积，不会导致CRP阻塞
+* continue
+
+### 4.5 CssSprites的缺点
+
+* 开发和维护都比较麻烦，如果背景又少许改动则合并图也需要做改动。
+* continue
+
+### 4.6 base64编码的具体过程
+
+
+
+### 4.7 什么是关键渲染路径？
+
